@@ -12,12 +12,12 @@ class DataManagerInterface(ABC):
 
 class InMemoryDataManager(DataManagerInterface):
     """
-    A simple in-memory data manager using a dictionary.
+    A simple in-memory data_manager manager using a dictionary.
     """
 
     def __init__(self, data):
         """
-        Initializes the InMemoryDataManager with the given data.
+        Initializes the InMemoryDataManager with the given data_manager.
 
         Args:
             data (dict): A dictionary where keys are user IDs and values
