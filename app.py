@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, g
+from flask import Flask, render_template, request, redirect, url_for
 from data_manager.sqlite_data_manager import SQLiteDataManager
 
 app = Flask(__name__)
@@ -9,13 +9,9 @@ data_manager = SQLiteDataManager('movies.db')
 @app.route('/')
 def home():
     """Home page."""
-    return render_template('home.html')  # Create a home.html template
-
-@app.route('/users')
-def list_users():
-    """Lists all users."""
     users = data_manager.get_all_users()
     return render_template('users.html', users=users)  # Create a users.html template
+
 
 @app.route('/users/<int:user_id>')
 def user_movies(user_id):
@@ -33,9 +29,10 @@ def add_user():
     if request.method == 'POST':
         username = request.form['username']  # Assuming a form field named 'username'
         data_manager.add_user(username)  # You would pass other user details here
-        return redirect(url_for('list_users'))  # Redirect to the users list
+        return redirect(url_for('home'))  # Redirect to the users list
     else:
         return render_template('add_user.html')  # Create an add_user.html form
+
 
 @app.route('/users/<int:user_id>/add_movie', methods=['GET', 'POST'])
 def add_movie(user_id):
@@ -45,13 +42,27 @@ def add_movie(user_id):
         return "User not found", 404
 
     if request.method == 'POST':
-        title = request.form['title']
-        director = request.form['director']
-        # ... other movie details from the form ...
-        data_manager.add_movie(user_id, title, director)  # Pass movie details
+        title = request.form.get('title', '').strip()
+        director = request.form.get('director', '').strip()
+        plot = request.form.get('plot', '').strip()
+        poster = request.form.get('poster', '').strip()
+
+        print(f"Received data: Title={title}, Director={director}, Plot={plot}, Poster={poster}")  # Debugging
+
+        if not title or not director:
+            return "Title and Director are required", 400
+
+        result = data_manager.add_movie(user_id, title, director, plot, poster)
+
+        if result:
+            print(f"Successfully added movie: {title}")
+        else:
+            print(f"Failed to add movie: {title}")
+
         return redirect(url_for('user_movies', user_id=user_id))
-    else:
-        return render_template('add_movie.html', user=user, user_id=user_id)  # Create add_movie.html
+
+    return render_template('add_movie.html', user=user)
+
 
 @app.route('/users/<int:user_id>/update_movie/<int:movie_id>', methods=['GET', 'POST'])
 def update_movie(user_id, movie_id):
@@ -62,14 +73,20 @@ def update_movie(user_id, movie_id):
         return "User or Movie not found", 404
 
     if request.method == 'POST':
+        # Retrieve updated values from the form
         title = request.form['title']
         director = request.form['director']
-        # ... other movie details from the form ...
-        data_manager.update_movie(movie_id, title, director)
+        plot = request.form.get('plot', '')  # Get plot, default to empty string if not provided
+        poster = request.form.get('poster', '')  # Get poster URL, default to empty if not provided
+        rating = request.form.get('rating', '')  # Get rating, default to empty if not provided
+
+        # Update the movie with the new values
+        data_manager.update_movie(movie_id, title, director, plot, poster, rating)
+
+        # Redirect to the movie list for the user
         return redirect(url_for('user_movies', user_id=user_id))
-    else:
-        # Pass user and movie objects to the template
-        return render_template('update_movie.html', user=user, movie=movie)  # Create update_movie.html
+
+    return render_template('update_movie.html', user=user, movie=movie)
 
 @app.route('/users/<int:user_id>/delete_movie/<int:movie_id>')
 def delete_movie(user_id, movie_id):
@@ -78,13 +95,7 @@ def delete_movie(user_id, movie_id):
     return redirect(url_for('user_movies', user_id=user_id))
 
 
-# Ensure the connection to the database is closed when application shuts down
-@app.teardown_appcontext
-def close_connection(exception=None):
-    """Closes the database connection at the end of each request."""
-    db = getattr(g, '_database', None)
-    if db is not None:
-        db.close()
+
 
 if __name__ == '__main__':
     app.run(debug=True)

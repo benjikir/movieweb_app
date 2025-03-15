@@ -1,9 +1,28 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Test</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MovieWeb App</title>
 </head>
 <body>
-    <h1>It Works!</h1>
+    <h1>Welcome to MovieWeb App!</h1>
+    <p>Explore and manage your favorite movies.</p>
+
+    <h2>Navigation</h2>
+    <ul>
+        <li><a href="{{ url_for('list_users') }}">View Users</a></li>
+    </ul>
+
+    <p>This is a basic home page.  You can add more content here, such as:</p>
+    <ul>
+        <li>A brief description of the app.</li>
+        <li>Featured movies or users.</li>
+        <li>A search bar (if you implement movie searching).</li>
+    </ul>
+
+    <footer>
+        <p>© 2025 Benjamin Becker's MovieWeb App</p>
+    </footer>
 </body>
 </html>

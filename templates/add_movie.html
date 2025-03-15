@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Movie</title>
+</head>
+<body>
+    <h1>Add a Movie for {{ user.username }}</h1>
+
+    <form method="POST">
+        <label for="title">Title:</label><br>
+        <input type="text" id="title" name="title" required><br><br>
+
+        <label for="director">Director:</label><br>
+        <input type="text" id="director" name="director" required><br><br>
+
+        <label for="plot">Plot:</label><br>
+        <textarea id="plot" name="plot"></textarea><br><br>
+
+        <label for="poster">Poster URL:</label><br>
+        <input type="text" id="poster" name="poster"><br><br>
+
+        <label for="rating">Rating:</label><br>
+        <input type="text" id="rating" name="rating"><br><br>
+
+        <button type="submit">Add Movie</button>
+    </form>
+
+    <br>
+    <a href="{{ url_for('user_movies', user_id=user.id) }}">Back to Movies</a>
+</body>
+</html>

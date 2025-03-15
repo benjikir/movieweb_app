@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MovieWeb App</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        h1 {
+            color: #333;
+        }
+        .movie-list {
+            list-style-type: none;
+            padding: 0;
+        }
+        .movie-item {
+            margin: 20px 0;
+            border-bottom: 1px solid #ccc;
+            padding-bottom: 10px;
+        }
+        .movie-poster {
+            max-width: 200px;
+            max-height: 300px;
+            margin-top: 10px;
+        }
+        .actions {
+            margin-top: 10px;
+        }
+        .actions a {
+            margin-right: 10px;
+            text-decoration: none;
+            color: #007bff;
+        }
+        .actions a:hover {
+            text-decoration: underline;
+        }
+        .no-movies {
+            font-style: italic;
+            color: #777;
+        }
+        footer {
+            margin-top: 50px;
+            text-align: center;
+            color: #888;
+        }
+    </style>
+</head>
+<body>
+    <h1>Welcome to MovieWeb App!</h1>
+    <p>Explore and manage your favorite movies.</p>
+
+    <h2>Movies for {{ user.username }}</h2>
+
+    {% if movies %}
+        <ul class="movie-list">
+            {% for movie in movies %}
+                <li class="movie-item">
+                    <strong>{{ movie.title }}</strong> ({{ movie.director }})
+                    <br>
+                    {% if movie.plot %}
+                        <em>Plot:</em> {{ movie.plot }}
+                    {% else %}
+                        <em>No plot available.</em>
+                    {% endif %}
+                    <br>
+                    {% if movie.rating %}
+                        <em>Rating:</em> {{ movie.rating }}
+                    {% endif %}
+                    <br>
+                    <img src="{{ movie.poster }}" alt="{{ movie.title }} Poster" class="movie-poster">
+                    <div class="actions">
+                        <a href="{{ url_for('update_movie', user_id=user.id, movie_id=movie.id) }}">Update</a>
+                        <a href="{{ url_for('delete_movie', user_id=user.id, movie_id=movie.id) }}" onclick="return confirm('Are you sure you want to delete this movie?')">Delete</a>
+                    </div>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p class="no-movies">No movies found for this user.</p>
+    {% endif %}
+
+    <a href="{{ url_for('add_movie', user_id=user.id) }}">Add Movie</a>
+    <br>
+    <a href="{{ url_for('home') }}">Back to Users</a>
+
+    <footer>
+        <p>© 2025 Benjamin Becker's MovieWeb App</p>
+    </footer>
+</body>
+</html>

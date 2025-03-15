@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update Movie</title>
+</head>
+<body>
+    <h1>Update Movie</h1>
+
+    <form method="POST">
+        <!-- Title -->
+        <label for="title">Title:</label><br>
+        <input type="text" id="title" name="title" value="{{ movie.title }}" required><br><br>
+
+        <!-- Director -->
+        <label for="director">Director:</label><br>
+        <input type="text" id="director" name="director" value="{{ movie.director }}"><br><br>
+
+        <!-- Plot -->
+        <label for="plot">Plot:</label><br>
+        <textarea id="plot" name="plot">{{ movie.plot }}</textarea><br><br>
+
+        <!-- Poster URL -->
+        <label for="poster">Poster URL:</label><br>
+        <input type="text" id="poster" name="poster" value="{{ movie.poster }}"><br><br>
+
+        <!-- Rating -->
+        <label for="rating">Rating:</label><br>
+        <input type="text" id="rating" name="rating" value="{{ movie.rating }}"><br><br>
+
+        <!-- Submit Button -->
+        <button type="submit">Update Movie</button>
+    </form>
+
+    <br>
+    <a href="{{ url_for('user_movies', user_id=user.id) }}">Back to Movies</a>
+
+    <footer>
+        <p>© 2025 Benjamin Becker's MovieWeb App</p>
+    </footer>
+</body>
+</html>
