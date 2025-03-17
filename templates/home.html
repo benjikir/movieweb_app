@@ -4,25 +4,134 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MovieWeb App</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+            color: #333;
+        }
+
+        header {
+            background-color: #333;
+            color: white;
+            padding: 20px 0;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 2.5em;
+            margin: 0;
+        }
+
+        h2 {
+            font-size: 1.8em;
+            color: #333;
+            margin-top: 30px;
+        }
+
+        p {
+            font-size: 1.2em;
+            line-height: 1.6em;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        li {
+            font-size: 1.2em;
+            margin-bottom: 10px;
+        }
+
+        a {
+            color: #007bff;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        footer {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 10px 0;
+            position: fixed;
+            width: 100%;
+            bottom: 0;
+        }
+
+        .content {
+            padding: 20px;
+        }
+
+        .call-to-action {
+            background-color: #28a745;
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        .call-to-action a {
+            background-color: #fff;
+            color: #28a745;
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        .call-to-action a:hover {
+            background-color: #218838;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2em;
+            }
+
+            h2 {
+                font-size: 1.5em;
+            }
+        }
+    </style>
 </head>
 <body>
-    <h1>Welcome to MovieWeb App!</h1>
-    <p>Explore and manage your favorite movies.</p>
 
+<header>
+    <h1>Welcome to MovieWeb App!</h1>
+    <p>Explore and manage your favorite movies</p>
+</header>
+
+<div class="content">
     <h2>Navigation</h2>
     <ul>
         <li><a href="{{ url_for('list_users') }}">View Users</a></li>
     </ul>
 
-    <p>This is a basic home page.  You can add more content here, such as:</p>
+    <h2>What's New?</h2>
+    <p>Here’s a quick overview of what you can do on MovieWeb:</p>
     <ul>
-        <li>A brief description of the app.</li>
-        <li>Featured movies or users.</li>
-        <li>A search bar (if you implement movie searching).</li>
+        <li><strong>Explore Users:</strong> View and manage your movies.</li>
+        <li><strong>Movie Management:</strong> Add, update, and delete your favorite movies.</li>
+        <li><strong>Featured Movies:</strong> Discover the latest popular movies.</li>
     </ul>
 
-    <footer>
-        <p>© 2025 Benjamin Becker's MovieWeb App</p>
-    </footer>
+    <div class="call-to-action">
+        <p>Ready to start managing your movies? <a href="{{ url_for('add_movie', user_id=1) }}">Add a movie now!</a></p>
+    </div>
+</div>
+
+<footer>
+    <p>© 2025 Benjamin Becker's MovieWeb App</p>
+</footer>
+
 </body>
 </html>

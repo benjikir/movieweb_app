@@ -231,3 +231,20 @@ class SQLiteDataManager:
         finally:
             if conn:
                 conn.close()
+
+    def delete_user(self, user_id):
+        """Delete a specific user from the database."""
+        conn = None
+        try:
+            conn = sqlite3.connect(self.db_file)
+            cursor = conn.cursor()
+            cursor.execute("DELETE FROM users WHERE id = ?", (user_id,))
+            conn.commit()
+            print(f"Deleted user: {user_id}")
+            return True
+        except sqlite3.Error as e:
+            logging.exception(f"Error deleting user: {e}")
+            return False
+        finally:
+            if conn:
+                conn.close()

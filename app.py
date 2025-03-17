@@ -33,6 +33,16 @@ def add_user():
     else:
         return render_template('add_user.html')  # Create an add_user.html form
 
+@app.route('/users/<int:user_id>/delete', methods=['POST'])
+def delete_user(user_id):
+    """Deletes a user."""
+    user = data_manager.get_user_by_id(user_id)
+    if not user:
+        return "User not found", 404
+
+    # Delete the user
+    data_manager.delete_user(user_id)  # Add this to your SQLiteDataManager class
+    return redirect(url_for('home'))  # Redirect to the users list
 
 @app.route('/users/<int:user_id>/add_movie', methods=['GET', 'POST'])
 def add_movie(user_id):
@@ -94,6 +104,13 @@ def delete_movie(user_id, movie_id):
     data_manager.delete_movie(movie_id)
     return redirect(url_for('user_movies', user_id=user_id))
 
+@app.errorhandler(404)
+def page_not_found(e):
+    return render_template('error404.html'), 404
+
+@app.errorhandler(500)
+def internal_server_error(e):
+    return render_template('500.html'), 500
 
 
 
