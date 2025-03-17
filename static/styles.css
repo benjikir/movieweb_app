@@ -1,0 +1,233 @@
+/* Root Variables */
+:root {
+    --primary-color: #007bff;
+    --secondary-color: #28a745;
+    --danger-color: #dc3545;
+    --text-color: #333;
+    --bg-color: #f4f4f9;
+    --white: #fff;
+    --dark-bg: #333;
+}
+
+/* General Styles */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+header, footer {
+    background-color: var(--dark-bg);
+    color: var(--white);
+    text-align: center;
+    padding: 20px 0;
+}
+
+header h1 {
+    font-size: 2.5em;
+    margin: 0;
+}
+
+header p {
+    font-size: 1.2em;
+    margin: 20px 0;
+}
+
+h2 {
+    font-size: 2em;
+    margin-top: 30px;
+}
+
+p {
+    font-size: 1.2em;
+    line-height: 1.6;
+    margin: 20px 0;
+}
+
+a {
+    color: var(--primary-color);
+    text-decoration: none;
+    font-weight: bold;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+/* Layout */
+.content {
+    padding: 20px;
+    flex: 1;
+}
+
+ul {
+    list-style: none;
+    padding: 0;
+    text-align: center;
+}
+
+li {
+    font-size: 1.5em;
+    margin-bottom: 15px;
+}
+
+/* Buttons */
+.button-container {
+    text-align: center;
+    margin-top: 30px;
+}
+
+button,
+.add-user-button,
+.back-to-users-button,
+.delete-button {
+    display: inline-block;
+    padding: 12px 24px;
+    font-size: 1.2em;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background-color 0.3s ease-in-out;
+}
+
+.add-user-button {
+    background-color: var(--secondary-color);
+    color: var(--white);
+}
+
+.add-user-button:hover {
+    background-color: #218838;
+}
+
+/* Back to Users button - Optimized for visibility */
+.back-to-users-button {
+    background-color: var(--primary-color);
+    color: var(--white);
+    font-size: 1.2em;
+    padding: 12px 24px;
+    margin-top: 20px; /* Ensure space between buttons */
+    border-radius: 5px;
+    border: 2px solid var(--primary-color); /* Added border for distinction */
+    transition: background-color 0.3s ease-in-out, border-color 0.3s ease-in-out;
+}
+
+.back-to-users-button:hover {
+    background-color: #0056b3;
+    border-color: #004085;
+}
+
+.delete-button {
+    background-color: var(--danger-color);
+    color: var(--white);
+    font-size: 0.9em;
+    padding: 8px 16px;
+}
+
+.delete-button:hover {
+    background-color: #c82333;
+}
+
+/* Forms */
+.movie-form label,
+.add-user-form label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.movie-form input[type="text"],
+.movie-form textarea,
+.add-user-form input[type="text"] {
+    width: 100%;
+    max-width: 300px;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    font-size: 1em;
+}
+
+.movie-form textarea {
+    height: 120px;
+    resize: vertical;
+}
+
+.movie-form button[type="submit"],
+.add-user-form button[type="submit"] {
+    background-color: var(--primary-color);
+    color: var(--white);
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-size: 1em;
+}
+
+.movie-form button[type="submit"]:hover,
+.add-user-form button[type="submit"]:hover {
+    background-color: #0056b3;
+}
+
+/* Movie List */
+.movie-list {
+    list-style: none;
+    padding: 0;
+}
+
+.movie-item {
+    margin: 20px 0;
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 10px;
+}
+
+.movie-poster {
+    max-width: 200px;
+    max-height: 300px;
+    margin-top: 10px;
+}
+
+.actions {
+    margin-top: 10px;
+}
+
+.actions a {
+    margin-right: 10px;
+    color: var(--primary-color);
+}
+
+.actions a:hover {
+    text-decoration: underline;
+}
+
+.no-movies {
+    font-style: italic;
+    color: #777;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    header h1 {
+        font-size: 2em;
+    }
+
+    h2 {
+        font-size: 1.5em;
+    }
+
+    p {
+        font-size: 1em;
+    }
+
+    button,
+    .add-user-button,
+    .back-to-users-button,
+    .delete-button {
+        font-size: 1em;
+        padding: 10px 20px;
+    }
+}

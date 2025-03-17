@@ -4,58 +4,30 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Add User</title>
-    <style>
-        /* Basic styling for the form */
-        body {
-            font-family: sans-serif;
-            margin: 20px;
-        }
-
-        form {
-            margin-bottom: 20px;
-        }
-
-        label {
-            display: block;
-            margin-bottom: 5px;
-        }
-
-        input[type="text"] {
-            width: 200px;
-            padding: 5px;
-            margin-bottom: 10px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-        }
-
-        button[type="submit"] {
-            background-color: #4CAF50; /* Green */
-            border: none;
-            color: white;
-            padding: 10px 20px;
-            text-align: center;
-            text-decoration: none;
-            display: inline-block;
-            font-size: 16px;
-            margin: 4px 2px;
-            cursor: pointer;
-            border-radius: 4px;
-        }
-
-        .error {
-            color: red;
-        }
-    </style>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
 <body>
-    <h1>Add New User</h1>
-    <form method="POST">
-        <label for="username">Username:</label><br>
-        <input type="text" id="username" name="username" required><br><br>  <!-- 'required' attribute added -->
 
-        <button type="submit">Add User</button>
-    </form>
+    <header>
+        <h1>Add New User</h1>
+    </header>
 
-    <a href="{{ url_for('home') }}">Back to Users</a>
+    <main class="content">
+        <div class="form-container">
+            <form method="POST" class="add-user-form">
+                <label for="username">Username:</label>
+                <input type="text" id="username" name="username" required placeholder="Enter username">
+
+                <button type="submit" class="add-user-button" aria-label="Add a new user">Add User</button>
+            </form>
+
+            <a href="{{ url_for('home') }}" class="back-to-users-button">Back to Users</a>
+        </div>
+    </main>
+
+    <footer>
+        <p>© 2025 Benjamin Becker's MovieWeb App</p>
+    </footer>
+
 </body>
-</html><
+</html>
