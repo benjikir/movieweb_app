@@ -13,6 +13,17 @@
     </header>
 
     <main class="content">
+       <!-- Flash Messages -->
+        {% with messages = get_flashed_messages() %}
+          {% if messages %}
+            <ul class="flash-messages">
+            {% for message in messages %}
+              <li>{{ message }}</li>
+            {% endfor %}
+            </ul>
+          {% endif %}
+        {% endwith %}
+
         <form method="POST" class="movie-form">
             <!-- Title -->
             <div class="form-group">
@@ -41,7 +52,7 @@
             <!-- Rating -->
             <div class="form-group">
                 <label for="rating">Rating:</label>
-                <input type="text" id="rating" name="rating" value="{{ movie.rating }}" placeholder="Enter movie rating">
+                <input type="text" id="rating" name="rating" value="{{ movie.rating|default('') }}" placeholder="Enter movie rating">
             </div>
 
             <!-- Submit Button -->

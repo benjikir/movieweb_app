@@ -1,5 +1,5 @@
 import sqlite3
-import logging  # For error handling
+import logging
 import requests
 
 
@@ -41,6 +41,7 @@ class SQLiteDataManager:
                         director TEXT,
                         plot TEXT,
                         poster TEXT,
+                        rating REAL,
                         FOREIGN KEY (user_id) REFERENCES users(id)
                     )
                 """)
@@ -144,7 +145,7 @@ class SQLiteDataManager:
                 conn.close()
 
 
-    def add_movie(self, user_id, title, director, plot, poster):
+    def add_movie(self, user_id, title, director, plot, poster, rating):
         """Add a new movie to a user's list."""
         conn = None
         try:
@@ -157,9 +158,9 @@ class SQLiteDataManager:
             director = omdb_movie_details.get('Director', director)  # Use OMDb director if available
             plot = omdb_movie_details.get('Plot', plot)  # Use OMDb plot if available
             poster = omdb_movie_details.get('Poster', poster)  # Use OMDb poster if available
-
-            cursor.execute("INSERT INTO movies (user_id, title, director, plot, poster) VALUES (?, ?, ?, ?, ?)",
-                           (user_id, title, director, plot, poster))
+            rating = omdb_movie_details.get('Rating', rating)
+            cursor.execute("INSERT INTO movies (user_id, title, director, plot, poster, rating) VALUES (?, ?, ?, ?, ?, ?)",
+                           (user_id, title, director, plot, poster, rating))
             conn.commit()
             print(f"Added movie: {title} for user {user_id}")
             return True
