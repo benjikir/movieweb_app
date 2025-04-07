@@ -3,73 +3,64 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Update Movie</title>
+    <title>Update Movie: {{ movie.title or 'Update Movie' }} - MovieWeb App</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
 <body>
-
     <header>
-        <h1>Update Movie</h1>
+        <h1><a href="{{ url_for('home') }}" style="color: inherit; text-decoration: none;">MovieWeb App</a></h1>
+        <p>Update Movie: {{ movie.title or 'N/A' }}</p>
+        <nav>
+             <a href="{{ url_for('home') }}">Home</a> |
+             <a href="{{ url_for('list_users') }}">View Users</a> |
+             <a href="{{ url_for('movie_detail', movie_id=movie_id) }}">Back to Movie Details</a> |
+             <a href="{{ url_for('user_movies', user_id=user.id) }}">Back to {{ user.username }}'s Movies</a>
+        </nav>
     </header>
 
-    <main class="content">
-       <!-- Flash Messages -->
-        {% with messages = get_flashed_messages() %}
-          {% if messages %}
-            <ul class="flash-messages">
-            {% for message in messages %}
-              <li>{{ message }}</li>
-            {% endfor %}
-            </ul>
-          {% endif %}
-        {% endwith %}
+    <main class="content container">
+        {% include 'flash_messages.html' %}
 
-        <form method="POST" class="movie-form">
-            <!-- Title -->
+        <form method="POST" action="{{ url_for('update_movie', movie_id=movie_id) }}" class="app-form">
             <div class="form-group">
-                <label for="title">Title:</label>
-                <input type="text" id="title" name="title" value="{{ movie.title }}" required placeholder="Enter movie title">
+                <label for="title" class="form-label">Title:</label>
+                <input type="text" id="title" name="title" class="form-control" value="{{ movie['title'] }}" required placeholder="Enter movie title">
             </div>
-
-            <!-- Director -->
             <div class="form-group">
-                <label for="director">Director:</label>
-                <input type="text" id="director" name="director" value="{{ movie.director }}" placeholder="Enter director name">
+                <label for="director" class="form-label">Director:</label>
+                <input type="text" id="director" name="director" class="form-control" value="{{ movie['director'] or '' }}" placeholder="Enter director name" required>
             </div>
-
-            <!-- Plot -->
-            <div class="form-group">
-                <label for="plot">Plot:</label>
-                <textarea id="plot" name="plot" placeholder="Enter movie plot">{{ movie.plot }}</textarea>
+             {# --- ADDED Year Field --- #}
+             <div class="form-group">
+                <label for="year" class="form-label">Year:</label>
+                {# Check if movie has year attribute before accessing #}
+                <input type="number" id="year" name="year" class="form-control" value="{{ movie['year'] if movie['year'] is not none else '' }}" placeholder="e.g., 2023" min="1880" max="2030">
+                <small class="field-hint">Optional. Enter the release year.</small>
             </div>
-
-            <!-- Poster URL -->
+            {# --- END Year Field --- #}
             <div class="form-group">
-                <label for="poster">Poster URL:</label>
-                <input type="text" id="poster" name="poster" value="{{ movie.poster }}" placeholder="Enter poster URL">
+                <label for="plot" class="form-label">Plot:</label>
+                <textarea id="plot" name="plot" class="form-control" placeholder="Enter movie plot">{{ movie['plot'] or '' }}</textarea>
             </div>
-
-            <!-- Rating -->
             <div class="form-group">
-                <label for="rating">Rating:</label>
-                <input type="text" id="rating" name="rating" value="{{ movie.rating|default('') }}" placeholder="Enter movie rating">
+                <label for="poster" class="form-label">Poster URL:</label>
+                <input type="text" id="poster" name="poster" class="form-control" value="{{ movie['poster'] or '' }}" placeholder="e.g., https://example.com/image.jpg">
+                 <small class="field-hint">Optional. Must be a valid URL (http/https).</small>
             </div>
-
-            <!-- Submit Button -->
             <div class="form-group">
-                <button type="submit" class="submit-button" aria-label="Update movie">Update Movie</button>
+                <label for="rating" class="form-label">Rating (0.0 - 10.0):</label>
+                <input type="text" id="rating" name="rating" class="form-control" value="{{ movie['rating'] if movie['rating'] is not none else '' }}" placeholder="e.g., 7.8">
+                 <small class="field-hint">Optional. Must be a number between 0.0 and 10.0.</small>
+            </div>
+            <div class="form-group button-container">
+                <button type="submit" class="button button-primary" aria-label="Update movie">Update Movie</button>
+                <a href="{{ url_for('movie_detail', movie_id=movie_id) }}" class="button button-link" aria-label="Cancel and go back to movie details">Cancel</a>
             </div>
         </form>
-
-        <!-- Back to Movies Link -->
-        <div class="button-container">
-            <a href="{{ url_for('user_movies', user_id=user.id) }}" class="back-to-movies-button" aria-label="Back to movies list">Back to Movies</a>
-        </div>
     </main>
 
     <footer>
         <p>© 2025 Benjamin Becker's MovieWeb App</p>
     </footer>
-
 </body>
 </html>

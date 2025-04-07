@@ -3,57 +3,109 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Add Movie</title>
+    <title>Add Movie for {{ user.username }} - MovieWeb App</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
 <body>
     <header>
-        <h1>MovieWeb App</h1>
+        <h1><a href="{{ url_for('home') }}" style="color: inherit; text-decoration: none;">MovieWeb App</a></h1>
+        <p>Add Movie for {{ user.username }}</p>
+        <nav>
+            <a href="{{ url_for('home') }}">Home</a> |
+            <a href="{{ url_for('list_users') }}">View Users</a> |
+            <a href="{{ url_for('user_movies', user_id=user.id) }}">Back to {{ user.username }}'s Movies</a>
+        </nav>
     </header>
 
-    <div class="content">
-        <h2>Add a Movie for {{ user.username }}</h2>
+    <main class="content container">
+        {% include 'flash_messages.html' %}
 
-        <!-- Flash Messages -->
-        {% with messages = get_flashed_messages() %}
-          {% if messages %}
-            <ul class="flash-messages">
-            {% for message in messages %}
-              <li>{{ message }}</li>
-            {% endfor %}
-            </ul>
-          {% endif %}
-        {% endwith %}
+        <form method="POST" action="{{ url_for('add_movie', user_id=user.id) }}" class="app-form" id="add-movie-form">
+            <!-- Method Selection -->
+            <div class="form-group radio-group">
+                 <label class="form-label">How do you want to add the movie?</label>
+                 <div>
+                      <input type="radio" id="fetch" name="add_method" value="fetch" {% if form_data.add_method != 'manual' %}checked{% endif %} onchange="toggleManualFields()">
+                      <label for="fetch">Fetch details using Title (from OMDb)</label>
+                 </div>
+                  <div>
+                      <input type="radio" id="manual" name="add_method" value="manual" {% if form_data.add_method == 'manual' %}checked{% endif %} onchange="toggleManualFields()">
+                      <label for="manual">Enter details manually</label>
+                 </div>
+            </div>
 
-        <form method="POST" class="movie-form">
             <!-- Title -->
-            <label for="title">Title:</label>
-            <input type="text" id="title" name="title" required><br>
+            <div class="form-group">
+                <label for="title" class="form-label">Title:</label>
+                <input type="text" id="title" name="title" class="form-control" value="{{ form_data.title or '' }}" required placeholder="Enter movie title">
+                <small class="field-hint" id="title-hint">Required for both methods.</small>
+            </div>
 
-            <!-- Director -->
-            <label for="director">Director:</label>
-            <input type="text" id="director" name="director" required><br>
+            <!-- Manual Fields Container -->
+            <div id="manual-fields" style="display: {% if form_data.add_method == 'manual' %}block{% else %}none{% endif %};">
+                <div class="form-group">
+                    <label for="director" class="form-label">Director:</label>
+                    <input type="text" id="director" name="director" class="form-control" value="{{ form_data.director or '' }}" placeholder="Enter director name">
+                    <small class="field-hint">Required for manual entry.</small>
+                </div>
+                {# --- ADDED Year Field --- #}
+                <div class="form-group">
+                    <label for="year" class="form-label">Year:</label>
+                    <input type="number" id="year" name="year" class="form-control" value="{{ form_data.year or '' }}" placeholder="e.g., 2023" min="1880" max="2030"> {# Use type="number" and add min/max #}
+                    <small class="field-hint">Optional. Enter the release year.</small>
+                </div>
+                {# --- END Year Field --- #}
+                <div class="form-group">
+                    <label for="plot" class="form-label">Plot:</label>
+                    <textarea id="plot" name="plot" class="form-control" placeholder="Enter movie plot">{{ form_data.plot or '' }}</textarea>
+                </div>
+                <div class="form-group">
+                    <label for="poster" class="form-label">Poster URL:</label>
+                    <input type="text" id="poster" name="poster" class="form-control" value="{{ form_data.poster or '' }}" placeholder="e.g., https://example.com/image.jpg">
+                    <small class="field-hint">Optional. Must be a valid URL (http/https).</small>
+                </div>
+                <div class="form-group">
+                    <label for="rating" class="form-label">Rating (0.0 - 10.0):</label>
+                    <input type="text" id="rating" name="rating" class="form-control" value="{{ form_data.rating or '' }}" placeholder="e.g., 7.8">
+                     <small class="field-hint">Optional. Must be a number between 0.0 and 10.0.</small>
+                </div>
+            </div>
 
-            <!-- Plot -->
-            <label for="plot">Plot:</label>
-            <textarea id="plot" name="plot"></textarea><br>
-
-            <!-- Poster URL -->
-            <label for="poster">Poster URL:</label>
-            <input type="text" id="poster" name="poster"><br>
-
-            <!-- Rating -->
-            <label for="rating">Rating:</label>
-            <input type="text" id="rating" name="rating"><br>
-
-            <button type="submit">Add Movie</button>
+            <!-- Submit Button -->
+            <div class="form-group button-container">
+                <button type="submit" class="button button-primary" aria-label="Add movie">Add Movie</button>
+                 <a href="{{ url_for('user_movies', user_id=user.id) }}" class="button button-link" aria-label="Cancel and go back to {{ user.username }}'s movies">Cancel</a>
+            </div>
         </form>
-
-        <a href="{{ url_for('user_movies', user_id=user.id) }}" class="back-to-users-button">Back to Movies</a>
-    </div>
+    </main>
 
     <footer>
-        <p>© 2025 Benjamin Becker's MovieWeb App</p>
+         <p>© 2025 Benjamin Becker's MovieWeb App</p>
     </footer>
+
+    <script>
+        function toggleManualFields() {
+            const manualFields = document.getElementById('manual-fields');
+            const directorInput = document.getElementById('director');
+            // --- ADDED yearInput for requirement handling ---
+            const yearInput = document.getElementById('year');
+            const titleHint = document.getElementById('title-hint');
+
+            if (document.getElementById('manual').checked) {
+                manualFields.style.display = 'block';
+                directorInput.required = true;
+                // --- Make year optional even in manual mode ---
+                yearInput.required = false;
+                titleHint.textContent = 'Required for manual entry.';
+            } else {
+                manualFields.style.display = 'none';
+                directorInput.required = false;
+                 // --- Year is also not required when fetching ---
+                yearInput.required = false;
+                 titleHint.textContent = 'Required for fetching details from OMDb.';
+            }
+        }
+        document.addEventListener('DOMContentLoaded', toggleManualFields);
+    </script>
 </body>
 </html>

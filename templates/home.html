@@ -3,34 +3,60 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MovieWeb App</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">  <!-- Link to the CSS file -->
+    <title>Welcome to MovieWeb App</title> <!-- Specific Title -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
 <body>
 
 <header>
-    <h1>Welcome to MovieWeb App!</h1>
-    <p>Explore and manage your favorite movies</p>
+    <!-- Site Title - Link to home page -->
+    <h1><a href="{{ url_for('home') }}" style="color: inherit; text-decoration: none;">MovieWeb App</a></h1>
+    <!-- Subtitle for this page -->
+    <p>Your personal space to explore and manage favorite movies</p>
+    <!-- Navigation specific to this page -->
+    <nav>
+        {# Assuming you have a 'list_users' route now for the user list #}
+        {# If '/' still lists users, change 'list_users' back to 'home' #}
+        <a href="{{ url_for('list_users') }}">View Users</a>
+        {# Add other relevant top-level nav links if desired #}
+    </nav>
 </header>
 
-<div class="content">
-    <h2>Navigation</h2>
-    <ul>
-        <li><a href="{{ url_for('list_users') }}">View Users</a></li>
-    </ul>
+<!-- Use main tag and container class for content consistency -->
+<main class="content container">
 
-    <h2>What's New?</h2>
-    <p>Here’s a quick overview of what you can do on MovieWeb:</p>
-    <ul>
-        <li><strong>Explore Users:</strong> View and manage your movies.</li>
-        <li><strong>Movie Management:</strong> Add, update, and delete your favorite movies.</li>
-        <li><strong>Featured Movies:</strong> Discover the latest popular movies.</li>
-    </ul>
+    <!-- Include flash messages -->
+    {% include 'flash_messages.html' %}
 
-    <div class="call-to-action">
-        <p>Ready to start managing your movies? <a href="{{ url_for('add_movie', user_id=1) }}">Add a movie now!</a></p>
-    </div>
-</div>
+    <!-- Welcome Section -->
+    <section class="welcome-section text-center" style="margin-bottom: 40px;">
+        <h2>Your Personal Movie Collection Hub</h2>
+        <p>Keep track of the movies you love, add new discoveries, and manage your watchlist easily.</p>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features-section">
+        <h2>What You Can Do:</h2>
+        <ul>
+            <li><strong>Manage Users:</strong> Create user profiles to organize movie lists.</li>
+            <li><strong>Build Your Library:</strong> Add movies manually or fetch details automatically using just the title.</li>
+            <li><strong>Track Details:</strong> Store directors, plots, ratings, and poster images.</li>
+            <li><strong>Easy Updates:</strong> Modify movie details or remove movies you no longer need.</li>
+        </ul>
+    </section>
+
+    <!-- Call to Action Section -->
+    <section class="call-to-action text-center" style="margin-top: 40px;">
+        <h2>Get Started!</h2>
+        <p>Ready to begin? View the current users or add a new one.</p>
+        <div class="button-container">
+             {# Assuming 'list_users' route exists #}
+            <a href="{{ url_for('list_users') }}" class="button button-primary">View Users</a>
+            <a href="{{ url_for('add_user') }}" class="button button-success">Add New User</a>
+        </div>
+    </section>
+
+</main> <!-- Close main content -->
 
 <footer>
     <p>© 2025 Benjamin Becker's MovieWeb App</p>

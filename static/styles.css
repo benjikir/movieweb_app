@@ -1,17 +1,52 @@
-/* Root Variables */
+/* ==========================================================================
+   Root Variables & Basic Setup
+   ========================================================================== */
 :root {
-    --primary-color: #007bff;
-    --secondary-color: #28a745;
-    --danger-color: #dc3545;
-    --text-color: #333;
-    --bg-color: #f4f4f9;
-    --white: #fff;
-    --dark-bg: #333;
+    --primary-color: #007bff;   /* Blue */
+    --secondary-color: #6c757d; /* Grey */
+    --success-color: #28a745;  /* Green */
+    --danger-color: #dc3545;   /* Red */
+    --warning-color: #ffc107;  /* Yellow */
+    --info-color: #17a2b8;     /* Teal */
+    --light-color: #f8f9fa;    /* Light Grey */
+    --dark-color: #343a40;     /* Dark Grey */
+
+    --text-color: #212529;     /* Darker text for readability */
+    --text-color-light: #f8f9fa;/* Text on dark backgrounds */
+    --text-muted: #6c757d;     /* Muted text color */
+    --bg-color: #f4f7f6;       /* Slightly off-white background */
+    --input-bg-color: #fff;    /* Input background */
+    --white: #fff;             /* Pure white */
+
+    --font-family-sans-serif: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"; /* Modern system font stack */
+    --base-font-size: 16px;
+    --base-line-height: 1.6;
+
+    --container-max-width: 1140px; /* Max width for main content */
+    --border-radius: 0.3rem;       /* Slightly softer border radius */
+    --border-color: #dee2e6;   /* Standard border color */
+
+    --box-shadow-sm: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075); /* Subtle shadow small */
+    --box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);        /* Subtle shadow standard */
+    --box-shadow-lg: 0 1rem 3rem rgba(0, 0, 0, 0.175);      /* Subtle shadow large */
 }
 
-/* General Styles */
+/* Apply box-sizing globally */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth; /* Smooth scrolling for anchor links */
+}
+
+/* General Body Styles */
 body {
-    font-family: Arial, sans-serif;
+    font-family: var(--font-family-sans-serif);
+    font-size: var(--base-font-size);
+    line-height: var(--base-line-height);
     margin: 0;
     padding: 0;
     background-color: var(--bg-color);
@@ -19,215 +54,610 @@ body {
     min-height: 100vh;
     display: flex;
     flex-direction: column;
+    -webkit-font-smoothing: antialiased; /* Improve font rendering */
+    -moz-osx-font-smoothing: grayscale;
 }
 
-header, footer {
-    background-color: var(--dark-bg);
-    color: var(--white);
-    text-align: center;
-    padding: 20px 0;
+/* ==========================================================================
+   Layout & Containers
+   ========================================================================== */
+.container {
+    width: 100%;
+    max-width: var(--container-max-width);
+    padding-right: 15px;
+    padding-left: 15px;
+    margin-right: auto;
+    margin-left: auto;
 }
+
+/* Main content area */
+main.content {
+    padding-top: 30px;  /* More top padding */
+    padding-bottom: 50px; /* More bottom padding */
+    flex: 1; /* Ensures footer stays at the bottom */
+}
+
+/* Header & Footer */
+header {
+    background-color: var(--dark-color);
+    color: var(--text-color-light);
+    text-align: center;
+    padding: 25px 15px; /* Increased padding */
+    border-bottom: 3px solid var(--primary-color); /* Accent border */
+}
+
+footer {
+    background-color: var(--dark-color);
+    color: var(--text-color-light);
+    text-align: center;
+    padding: 20px 15px;
+    margin-top: auto; /* Pushes footer down */
+    font-size: 0.9em;
+}
+
 
 header h1 {
-    font-size: 2.5em;
-    margin: 0;
+    font-size: 2.4em; /* Slightly adjusted */
+    margin: 0 0 10px 0;
+    font-weight: 500; /* Lighter weight */
 }
-
 header p {
-    font-size: 1.2em;
-    margin: 20px 0;
+    color: rgba(255, 255, 255, 0.8); /* Subtler description */
+    margin-bottom: 15px;
 }
 
-h2 {
-    font-size: 2em;
-    margin-top: 30px;
+header nav {
+    margin-top: 15px;
 }
+
+header nav a {
+    color: var(--info-color); /* Make nav links stand out */
+    margin: 0 12px;
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.2s ease;
+}
+header nav a:hover {
+    color: var(--light-color);
+    text-decoration: underline;
+}
+
+
+footer p {
+    margin: 0;
+    color: rgba(255, 255, 255, 0.7);
+}
+
+/* ==========================================================================
+   Typography & Links
+   ========================================================================== */
+h1, h2, h3, h4, h5, h6 {
+    margin-top: 0;
+    margin-bottom: 0.75rem; /* Consistent bottom margin */
+    font-weight: 500; /* Slightly lighter headings */
+    line-height: 1.3;
+    color: var(--dark-color); /* Ensure headings use dark color */
+}
+
+h1 { font-size: 2.5rem; }
+h2 { font-size: 2rem; margin-bottom: 1.5rem; } /* More space below H2 */
+h3 { font-size: 1.75rem; }
+h4 { font-size: 1.5rem; }
+h5 { font-size: 1.25rem; }
+h6 { font-size: 1rem; }
 
 p {
-    font-size: 1.2em;
-    line-height: 1.6;
-    margin: 20px 0;
+    margin-top: 0;
+    margin-bottom: 1rem;
 }
 
 a {
     color: var(--primary-color);
     text-decoration: none;
-    font-weight: bold;
+    transition: color 0.2s ease;
 }
 
 a:hover {
-    text-decoration: underline;
-}
-
-/* Layout */
-.content {
-    padding: 20px;
-    flex: 1;
+    color: #0056b3; /* Darker primary color */
+    text-decoration: none; /* Prefer no underline on hover */
 }
 
 ul {
     list-style: none;
     padding: 0;
+    margin: 0;
+}
+
+
+/* ==========================================================================
+   Buttons (Refined)
+   ========================================================================== */
+.button {
+    display: inline-block;
+    font-weight: 500; /* Slightly bolder */
+    color: var(--text-color);
     text-align: center;
+    vertical-align: middle;
+    cursor: pointer;
+    user-select: none;
+    background-color: transparent;
+    border: 1px solid transparent;
+    padding: 0.6rem 1.2rem; /* Adjusted padding */
+    font-size: 0.95rem; /* Slightly smaller */
+    line-height: 1.5; /* Adjusted line-height */
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow-sm); /* Add subtle shadow to buttons */
+    transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out, transform 0.1s ease-in-out;
+}
+.button:hover {
+    transform: translateY(-1px); /* Slight lift on hover */
+    box-shadow: 0 0.25rem 0.5rem rgba(0,0,0,0.1); /* Slightly increased shadow */
+}
+.button:active {
+    transform: translateY(0px); /* Reset lift on active */
+    box-shadow: var(--box-shadow-sm);
+}
+.button:focus {
+     outline: 0;
+     box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.35); /* Focus ring */
 }
 
-li {
-    font-size: 1.5em;
-    margin-bottom: 15px;
+.button:not(:disabled):not(.disabled) {
+    cursor: pointer;
 }
 
-/* Buttons */
+/* Button Color Variants (Hover state improvements) */
+.button-primary { color: var(--text-color-light); background-color: var(--primary-color); border-color: var(--primary-color); }
+.button-primary:hover { background-color: #0069d9; border-color: #0062cc; color: var(--text-color-light);}
+
+.button-secondary { color: var(--text-color-light); background-color: var(--secondary-color); border-color: var(--secondary-color); }
+.button-secondary:hover { background-color: #5a6268; border-color: #545b62; color: var(--text-color-light);}
+
+.button-success { color: var(--text-color-light); background-color: var(--success-color); border-color: var(--success-color); }
+.button-success:hover { background-color: #218838; border-color: #1e7e34; color: var(--text-color-light);}
+
+.button-danger { color: var(--text-color-light); background-color: var(--danger-color); border-color: var(--danger-color); }
+.button-danger:hover { background-color: #c82333; border-color: #bd2130; color: var(--text-color-light);}
+
+.button-info { color: var(--text-color-light); background-color: var(--info-color); border-color: var(--info-color); }
+.button-info:hover { color: var(--text-color-light); background-color: #138496; border-color: #117a8b; }
+
+.button-link {
+    font-weight: 400;
+    color: var(--primary-color);
+    text-decoration: none;
+    background-color: transparent;
+    border-color: transparent;
+    box-shadow: none;
+}
+.button-link:hover {
+    color: #0056b3;
+    text-decoration: underline;
+    background-color: transparent;
+    border-color: transparent;
+    transform: none;
+    box-shadow: none;
+}
+
+/* Button container for centering/spacing */
 .button-container {
     text-align: center;
-    margin-top: 30px;
+    margin-top: 25px;
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: center;
+    gap: 15px; /* Space between buttons */
+    flex-wrap: wrap; /* Allow buttons to wrap */
 }
 
-button,
-.add-user-button,
-.back-to-users-button,
-.delete-button {
+
+/* ==========================================================================
+   Forms (Refined for Consistency)
+   ========================================================================== */
+.app-form {
+    max-width: 700px;
+    margin: 20px auto 40px auto; /* Center form, add top/bottom margin */
+    padding: 30px 35px;
+    background-color: var(--white); /* Use white variable */
+    border: 1px solid var(--border-color);
+    border-radius: calc(var(--border-radius) + 0.1rem);
+    box-shadow: var(--box-shadow); /* Consistent shadow */
+}
+
+.form-group {
+    margin-bottom: 1.5rem; /* Increased space between fields */
+}
+
+.form-label {
     display: inline-block;
-    padding: 12px 24px;
-    font-size: 1.2em;
-    border-radius: 5px;
-    border: none;
-    cursor: pointer;
-    text-decoration: none;
-    transition: background-color 0.3s ease-in-out;
+    margin-bottom: 0.6rem; /* More space below label */
+    font-weight: 500; /* Slightly bolder labels */
+    font-size: 0.95em;
+    color: var(--text-color);
 }
 
-.add-user-button {
-    background-color: var(--secondary-color);
-    color: var(--white);
-}
-
-.add-user-button:hover {
-    background-color: #218838;
-}
-
-/* Back to Users button - Optimized for visibility */
-.back-to-users-button {
-    background-color: var(--primary-color);
-    color: var(--white);
-    font-size: 1.2em;
-    padding: 12px 24px;
-    margin-top: 20px; /* Ensure space between buttons */
-    border-radius: 5px;
-    border: 2px solid var(--primary-color); /* Added border for distinction */
-    transition: background-color 0.3s ease-in-out, border-color 0.3s ease-in-out;
-}
-
-.back-to-users-button:hover {
-    background-color: #0056b3;
-    border-color: #004085;
-}
-
-.delete-button {
-    background-color: var(--danger-color);
-    color: var(--white);
-    font-size: 0.9em;
-    padding: 8px 16px;
-}
-
-.delete-button:hover {
-    background-color: #c82333;
-}
-
-/* Forms */
-.movie-form label,
-.add-user-form label {
+.form-control {
     display: block;
-    margin-bottom: 5px;
-    font-weight: bold;
-}
-
-.movie-form input[type="text"],
-.movie-form textarea,
-.add-user-form input[type="text"] {
     width: 100%;
-    max-width: 300px;
-    padding: 10px;
-    margin-bottom: 15px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    box-sizing: border-box;
-    font-size: 1em;
+    padding: 0.75rem 1rem; /* More padding in inputs */
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: var(--text-color);
+    background-color: var(--input-bg-color);
+    background-clip: padding-box;
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    box-shadow: inset 0 1px 2px rgba(0,0,0,.075); /* Subtle inset shadow */
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 }
 
-.movie-form textarea {
-    height: 120px;
+.form-control:focus {
+    color: var(--text-color);
+    background-color: var(--input-bg-color);
+    border-color: var(--primary-color); /* Use primary color for focus border */
+    outline: 0;
+    /* Slightly stronger focus shadow */
+    box-shadow: inset 0 1px 2px rgba(0,0,0,.075), 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+textarea.form-control {
+    min-height: 120px; /* Ensure decent textarea height */
     resize: vertical;
 }
 
-.movie-form button[type="submit"],
-.add-user-form button[type="submit"] {
-    background-color: var(--primary-color);
-    color: var(--white);
-    padding: 10px 20px;
-    border-radius: 5px;
+/* Hint text below form fields */
+.field-hint {
+    display: block;
+    margin-top: 0.35rem; /* More space above hint */
+    font-size: 0.85em;
+    color: var(--text-muted);
+}
+
+/* Radio button styling */
+.radio-group label.form-label { /* Style the main group label */
+    display: block;
+    margin-bottom: 0.75rem;
+}
+.radio-group div { /* Style each radio option container */
+    margin-bottom: 0.6rem;
+    display: flex;
+    align-items: center;
+}
+.radio-group input[type="radio"] {
+    margin-right: 0.5rem;
+    flex-shrink: 0;
+    accent-color: var(--primary-color); /* Color the radio button itself */
+    width: 1.1em; /* Slightly larger radio */
+    height: 1.1em;
+    cursor: pointer;
+}
+.radio-group label { /* Style the label next to the radio */
+    margin-bottom: 0;
+    font-weight: normal;
     font-size: 1em;
+     cursor: pointer; /* Make label clickable */
 }
 
-.movie-form button[type="submit"]:hover,
-.add-user-form button[type="submit"]:hover {
-    background-color: #0056b3;
+
+/* ==========================================================================
+   User List (Refined - users.html)
+   ========================================================================== */
+.user-list {
+    max-width: 650px; /* Constrain width */
+    margin: 20px auto 40px auto; /* Center list and add bottom margin */
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    background-color: var(--white); /* White background for the list container */
+    box-shadow: var(--box-shadow);
+    overflow: hidden; /* Ensures borders contain children */
 }
 
-/* Movie List */
-.movie-list {
-    list-style: none;
-    padding: 0;
+.user-list li {
+    padding: 1rem 1.5rem; /* Generous padding */
+    display: flex;
+    justify-content: space-between; /* Align username and delete button */
+    align-items: center;
+    border-bottom: 1px solid var(--border-color); /* Separator */
+    transition: background-color 0.15s ease;
 }
 
-.movie-item {
-    margin: 20px 0;
-    border-bottom: 1px solid #ccc;
-    padding-bottom: 10px;
+.user-list li:last-child {
+    border-bottom: none; /* Remove border from last item */
 }
 
-.movie-poster {
-    max-width: 200px;
-    max-height: 300px;
-    margin-top: 10px;
+.user-list li:hover {
+    background-color: var(--light-color); /* Subtle hover */
 }
 
-.actions {
-    margin-top: 10px;
+/* Style the username link within the list */
+.user-list li a {
+    font-weight: 500;
+    color: var(--text-color);
+    text-decoration: none;
+    margin-right: auto; /* Push button to the right */
+    padding-right: 1rem; /* Ensure space before button */
 }
-
-.actions a {
-    margin-right: 10px;
+.user-list li a:hover {
     color: var(--primary-color);
 }
 
-.actions a:hover {
-    text-decoration: underline;
+/* Adjust the delete button within the list */
+.user-list form {
+    display: inline;
+    flex-shrink: 0; /* Prevent button from shrinking */
+}
+.user-list .button-danger {
+    padding: 0.3rem 0.7rem; /* Smaller padding for list buttons */
+    font-size: 0.85rem; /* Smaller font size */
+    box-shadow: none;
+}
+.user-list .button-danger:hover {
+     transform: none;
+     box-shadow: none;
 }
 
+
+/* ==========================================================================
+   Movie Grid (user_movies.html) - Explicitly Defined
+   ========================================================================== */
+.movie-grid {
+    display: grid;
+    /* Core grid layout: auto-fill columns, min width 200px, max 1fr */
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 25px; /* Gap between tiles */
+    padding: 20px 0; /* Padding above/below grid */
+    margin-bottom: 20px; /* Space below grid before buttons */
+}
+
+.movie-tile {
+    /* Tile appearance */
+    background-color: var(--white); /* Explicit white background */
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    padding: 15px;
+    text-align: center;
+    box-shadow: var(--box-shadow); /* Consistent shadow */
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+    /* Layout & Link styling */
+    text-decoration: none;
+    color: inherit;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 380px; /* Minimum height */
+    overflow: hidden;
+}
+
+.movie-tile:hover {
+    transform: translateY(-3px); /* Slight lift */
+    box-shadow: var(--box-shadow-lg); /* Larger shadow on hover */
+}
+
+.movie-tile .poster-container {
+     height: 280px; /* Fixed poster height */
+     margin-bottom: 10px;
+     display: flex;
+     align-items: center;
+     justify-content: center;
+     background-color: #eee; /* Placeholder color */
+     border-radius: calc(var(--border-radius) - 1px);
+     overflow: hidden;
+}
+
+.movie-tile img.movie-poster {
+    display: block;
+    max-width: 100%;
+    max-height: 100%;
+    height: auto;
+    width: auto;
+    object-fit: cover; /* Cover space, may crop */
+}
+.movie-tile img.movie-poster:error,
+.movie-tile img.img-error {
+    /* Styles for broken images */
+    content: 'No Poster';
+    font-size: 0.9em;
+    color: var(--text-muted);
+    padding: 20px; /* Give text some space */
+    height: 100%; /* Fill container */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.movie-tile h3 {
+    font-size: 1.1em;
+    margin: 10px 0 5px 0;
+    font-weight: 500;
+    color: var(--dark-color);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.movie-tile .movie-info p {
+    font-size: 0.9em;
+    color: var(--text-muted);
+    margin: 3px 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.movie-tile .rating {
+    font-weight: bold;
+    color: #e7711b; /* Specific rating color */
+}
+
+/* Message when no movies */
 .no-movies {
+    text-align: center;
+    color: var(--text-muted);
+    padding: 40px 20px;
     font-style: italic;
-    color: #777;
+    font-size: 1.1em;
+    border: 1px dashed var(--border-color);
+    border-radius: var(--border-radius);
+    background-color: var(--light-color);
+    margin-top: 20px;
+    margin-bottom: 30px;
 }
 
-/* Responsive Design */
+
+/* ==========================================================================
+   Movie Detail Page (movie_detail.html) - Ensure Consistency
+   ========================================================================== */
+.movie-detail-container {
+    display: flex;
+    flex-wrap: wrap; /* Allow wrapping */
+    gap: 30px;
+    margin-top: 20px;
+    padding: 30px 35px; /* Consistent padding */
+    background-color: var(--white);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+}
+
+.movie-detail-poster {
+    flex: 0 0 auto;
+    width: 100%;
+    max-width: 300px;
+    margin-bottom: 20px;
+}
+
+.movie-detail-poster img {
+    display: block;
+    width: 100%;
+    height: auto;
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow-sm); /* Add shadow to poster */
+    background-color: #eee;
+}
+
+.movie-detail-info {
+    flex: 1;
+    min-width: 280px;
+}
+
+.movie-detail-info h1 {
+    margin-top: 0;
+    margin-bottom: 1rem;
+    font-weight: 500;
+    color: var(--dark-color);
+}
+
+.movie-detail-info p {
+    line-height: 1.7;
+    color: var(--text-color);
+    margin-bottom: 0.75rem;
+}
+
+.movie-detail-info .label {
+    font-weight: 600; /* Slightly bolder label */
+    color: var(--dark-color);
+    margin-right: 7px;
+}
+
+.movie-detail-actions {
+    margin-top: 25px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px; /* Consistent gap */
+    align-items: center;
+}
+.movie-detail-actions form {
+    margin: 0;
+}
+/* Use standard button classes here */
+/* .edit-button uses .button .button-primary */
+/* .delete-button uses .button .button-danger */
+
+
+/* ==========================================================================
+   Flash Messages (Refined)
+   ========================================================================== */
+.flash-messages-container {
+    padding: 0;
+    margin: 0 auto 1.5rem auto; /* Center container, space below */
+    list-style: none;
+    max-width: var(--container-max-width); /* Match container width */
+    padding-left: 15px; /* Align with container padding */
+    padding-right: 15px;
+}
+
+.flash-message {
+    padding: 0.9rem 1.25rem;
+    margin-bottom: 1rem;
+    border: 1px solid transparent;
+    border-radius: var(--border-radius);
+    font-size: 0.95rem;
+    display: flex;
+    align-items: center;
+    box-shadow: var(--box-shadow-sm);
+}
+
+/* Colors using variables */
+.flash-message.error, .flash-message.danger { color: #721c24; background-color: #f8d7da; border-color: #f5c6cb; }
+.flash-message.success { color: #155724; background-color: #d4edda; border-color: #c3e6cb; }
+.flash-message.warning { color: #856404; background-color: #fff3cd; border-color: #ffeeba; }
+.flash-message.info { color: #0c5460; background-color: #d1ecf1; border-color: #bee5eb; }
+
+
+/* ==========================================================================
+   Responsive Design
+   ========================================================================== */
 @media (max-width: 768px) {
-    header h1 {
-        font-size: 2em;
+    :root {
+        --base-font-size: 15px;
     }
+    main.content { padding-top: 20px; padding-bottom: 40px; }
+    header { padding: 20px 15px; }
+    header h1 { font-size: 2em; }
+    h1 { font-size: 2rem; } h2 { font-size: 1.75rem; } h3 { font-size: 1.5rem; }
 
-    h2 {
-        font-size: 1.5em;
-    }
+    .app-form { padding: 20px 25px; }
+    .user-list { max-width: 95%; }
+    .user-list li { padding: 0.8rem 1rem; }
+    .button { padding: 0.5rem 1rem; font-size: 0.9rem; }
+    .user-list .button-danger { padding: 0.25rem 0.6rem; font-size: 0.8rem; }
 
-    p {
-        font-size: 1em;
-    }
+    .movie-grid { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 15px; }
+    .movie-tile { min-height: 320px; }
+    .movie-tile .poster-container { height: 220px; }
 
-    button,
-    .add-user-button,
-    .back-to-users-button,
-    .delete-button {
-        font-size: 1em;
-        padding: 10px 20px;
-    }
+    .movie-detail-container { flex-direction: column; align-items: center; gap: 20px; padding: 20px 25px; }
+    .movie-detail-poster { max-width: 250px; margin-bottom: 10px; }
+    .movie-detail-info { text-align: center; }
+    .movie-detail-actions { justify-content: center; }
 }
+
+@media (max-width: 576px) {
+     header nav { display: flex; flex-direction: column; gap: 8px; }
+     header nav a { margin: 0; }
+     .button-container { flex-direction: column; gap: 10px; align-items: center; } /* Stack buttons vertically & center */
+     .button { width: 80%; max-width: 300px; } /* Make stacked buttons wider */
+     .button-link { width: auto; max-width: none; } /* Exclude link buttons */
+
+    .movie-grid { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 10px; }
+    .movie-tile { padding: 10px; min-height: 280px; }
+    .movie-tile .poster-container { height: 180px; }
+    .movie-tile h3 { font-size: 1em; }
+    .movie-tile .movie-info p { font-size: 0.85em; }
+
+    .user-list li { font-size: 0.95em; padding: 0.7rem 0.8rem; flex-wrap: wrap; gap: 5px; } /* Allow wrap in user list */
+    .user-list li a { margin-right: 0; padding-right: 0; flex-basis: 100%;} /* User link takes full width */
+    .user-list form { margin-left: 0; flex-basis: auto; } /* Button aligns normally */
+
+    .app-form { padding: 15px 20px; }
+    .flash-messages-container { padding-left: 5px; padding-right: 5px; } /* Less padding on mobile */
+}
+
+/* ==========================================================================
+   Utilities (Optional)
+   ========================================================================== */
+.text-center { text-align: center !important; }
+.mt-1 { margin-top: 0.25rem !important; } .mt-2 { margin-top: 0.5rem !important; } .mt-3 { margin-top: 1rem !important; } .mt-4 { margin-top: 1.5rem !important; } .mt-5 { margin-top: 3rem !important; }
+.mb-1 { margin-bottom: 0.25rem !important; } .mb-2 { margin-bottom: 0.5rem !important; } .mb-3 { margin-bottom: 1rem !important; } .mb-4 { margin-bottom: 1.5rem !important; } .mb-5 { margin-bottom: 3rem !important; }

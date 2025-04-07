@@ -3,57 +3,62 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MovieWeb App</title>
+    <title>{{ user.username }}'s Movies - MovieWeb App</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
 <body>
-
     <header>
-        <h1>Movies for {{ user.username }}</h1>
+        <h1><a href="{{ url_for('home') }}" style="color: inherit; text-decoration: none;">MovieWeb App</a></h1>
+        <p>Viewing movies for {{ user.username }}</p>
+        <nav>
+             <a href="{{ url_for('home') }}">Home</a> |
+             <a href="{{ url_for('list_users') }}">Back to Users</a> |
+             <a href="{{ url_for('add_movie', user_id=user.id) }}">Add New Movie</a>
+        </nav>
     </header>
 
-    <main class="content">
+    <main class="content container">
+        {% include 'flash_messages.html' %}
+        <h2>{{ user.username }}'s Favorite Movies</h2> {# Re-added heading for clarity #}
+
         {% if movies %}
-            <section class="movie-list-section">
-                <ul class="movie-list" aria-live="polite">
-                    {% for movie in movies %}
-                        <li class="movie-item">
-                            <h3>{{ movie.title }}</h3>
-                            <p><strong>Director:</strong> {{ movie.director }}</p>
-
-                            {% if movie.plot %}
-                                <p><strong>Plot:</strong> {{ movie.plot }}</p>
-                            {% else %}
-                                <p><em>No plot available.</em></p>
-                            {% endif %}
-
-                            {% if movie.rating %}
-                                <p><strong>Rating:</strong> {{ movie.rating }}</p>
-                            {% endif %}
-
-                            <img src="{{ movie.poster }}" alt="{{ movie.title }} Poster" class="movie-poster">
-
-                            <div class="actions">
-                                <a href="{{ url_for('update_movie', user_id=user.id, movie_id=movie.id) }}" class="action-link" aria-label="Update movie: {{ movie.title }}">Update</a>
-                                <a href="{{ url_for('delete_movie', user_id=user.id, movie_id=movie.id) }}" class="action-link" onclick="return confirm('Are you sure you want to delete this movie?')" aria-label="Delete movie: {{ movie.title }}">Delete</a>
-                            </div>
-                        </li>
-                    {% endfor %}
-                </ul>
-            </section>
+            <div class="movie-grid" aria-live="polite">
+                {% for movie in movies %}
+                    <a href="{{ url_for('movie_detail', movie_id=movie.id) }}" class="movie-tile">
+                        <div class="poster-container">
+                            <img src="{{ movie.poster if movie.poster else url_for('static', filename='placeholder.png') }}"
+                                 alt="{{ movie.title }} Poster"
+                                 class="movie-poster"
+                                 onerror="this.onerror=null; this.src='{{ url_for('static', filename='placeholder.png') }}'; this.classList.add('img-error');">
+                        </div>
+                        <h3>{{ movie.title }}</h3>
+                        <div class="movie-info">
+                            <p>Director: {{ movie.director if movie.director else 'N/A' }}</p>
+                            {# --- Display Year --- #}
+                            <p>Year: {{ movie.year if movie.year else 'N/A' }}</p>
+                            {# --- End Display Year --- #}
+                            <p>Rating: <span class="rating">{{ movie.rating|round(1) if movie.rating is not none else 'N/A' }}</span> / 10</p>
+                        </div>
+                    </a>
+                {% endfor %}
+            </div>
         {% else %}
             <p class="no-movies">No movies found for this user.</p>
+             <div class="button-container">
+                 <a href="{{ url_for('add_movie', user_id=user.id) }}" class="button button-primary" aria-label="Add a new movie">Add First Movie</a>
+             </div>
         {% endif %}
 
         <div class="button-container">
-            <a href="{{ url_for('add_movie', user_id=user.id) }}" class="add-movie-button" aria-label="Add a new movie">Add Movie</a>
-            <a href="{{ url_for('home') }}" class="back-to-users-button" aria-label="Back to users list">Back to Users</a>
+            {% if movies %}
+             <a href="{{ url_for('add_movie', user_id=user.id) }}" class="button button-success" aria-label="Add another movie">Add Movie</a>
+            {% endif %}
+            <a href="{{ url_for('list_users') }}" class="button button-secondary" aria-label="Back to users list">Back to Users</a>
         </div>
     </main>
 
     <footer>
         <p>© 2025 Benjamin Becker's MovieWeb App</p>
     </footer>
-
 </body>
 </html>
